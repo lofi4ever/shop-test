@@ -1,14 +1,51 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <StatePanel 
+      :count="selectedProductsCount"
+      :price="selectedProductsTotalPrice">
+    </StatePanel>
+    
+    <h1>Магазин</h1>
+
     <router-view/>
   </div>
 </template>
 
+<script>
+  import StatePanel from "@/components/StatePanel.vue"
+
+  export default {
+    components: {
+      StatePanel
+    },
+    data() {
+      return {
+        
+      }
+    },
+    computed: {
+      selectedProductsCount() {
+        return this.$store.state.selectedProducts.length;
+      },
+      selectedProductsTotalPrice() {
+        let { selectedProducts } = this.$store.state;
+        if(!selectedProducts.length) return 0;
+        return selectedProducts.reduce((total, product) => total + product.price, 0);
+      }
+    }
+  }
+</script>
+
 <style lang="scss">
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
